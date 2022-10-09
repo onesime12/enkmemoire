@@ -29,31 +29,33 @@
               ></v-text-field>
             </v-col>
 
-            <v-col
-              cols="12"
-              justify="center"
-              class=""
-            >
-              
+            <v-col cols="12" justify="center" class="">
               <nav class="ma-0 pa-0">
                 <ul class="ma-0 pa-0 d-flex">
+                  <li>
+                    <v-alert
+                      class="ma-0 pa-0 w-100"
+                      v-if="alert != ''"
+                      v-bind:style="{ color: color }"
+                      >{{ alert }}
+                    </v-alert>
+                  </li>
 
-                  <li ><v-alert class="ma-0 pa-0 w-100" v-if="alert != ''" v-bind:style="{ color: color }">{{ alert }}
-        </v-alert></li>
-                  
                   <li class="ml-auto">
-                    <p class="text-sm">N'avez-vous pas un Compte <br/> 
-                      <router-link to="/" class="ma-0 pa-0">Créer un Compte</router-link>
+                    <p class="text-sm">
+                      N'avez-vous pas un Compte <br />
+                      <router-link to="/" class="ma-0 pa-0"
+                        >Créer un Compte</router-link
+                      >
                     </p>
-                    
                   </li>
                 </ul>
               </nav>
               <v-divider class="my-5"></v-divider>
-            <v-spacer></v-spacer>
+              <v-spacer></v-spacer>
               <v-btn
-              color="primary"
-              @click="achatPost()"
+                color="primary"
+                @click="achatPost()"
                 class="pa-2 text-capitalize"
               >
                 Acheter maintenant
@@ -61,7 +63,6 @@
             </v-col>
           </v-row>
         </v-container>
-        
       </v-form>
     </v-card>
     <v-card
@@ -92,14 +93,26 @@
         </p>
         <div class="d-flex justify-center">
           <p
-            class="text-black font-mono text-center w-38 border-b-2 border-dotted border-gray-300"
+            class="
+              text-black
+              font-mono
+              text-center
+              w-38
+              border-b-2 border-dotted border-gray-300
+            "
           >
             Crédit d'électricité
           </p>
         </div>
 
         <div
-          class="text-center text-lg text--primary border-double border-gray-200 border-4 mx-10 p-2 py-10"
+          class="
+            text-center text-lg text--primary
+            border-double border-gray-200 border-4
+            mx-10
+            p-2
+            py-10
+          "
         >
           {{ "74938402473-58" }}
         </div>
@@ -107,7 +120,11 @@
       <v-divider></v-divider>
       <v-card-text class="text-center pb-2 mb-0">
         <div
-          class="border-2 border-blue-400 border-dashed pa-5 font-mono font-semibold"
+          class="
+            border-2 border-blue-400 border-dashed
+            pa-5
+            font-mono font-semibold
+          "
         >
           <div class="d-flex justify-between">
             <p class="py-0 my-0">Tendu</p>
@@ -241,7 +258,10 @@ export default {
     },
     achatPost() {
       axios
-        .post("http://localhost:8082/api/operation", this.operations)
+        .post(
+          "https://enkclientserver2.vercel.app/api/operation",
+          this.operations
+        )
         .then((response) => {
           if (response.data.status == false) {
             this.alert = response.data.message;
@@ -256,7 +276,7 @@ export default {
         });
     },
     recheachOperation() {
-      axios.get("http://localhost:8081/api/code").then((response) => {
+      axios.get("https://enkserver.vercel.app/api/code").then((response) => {
         if (response.data.status == true) {
           this.gets = response.data.codeFound;
           console.log(this.gets);

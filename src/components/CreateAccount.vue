@@ -19,22 +19,22 @@
       <v-divider class="my-5"></v-divider>
       <div class="text-center">
         <v-dialog v-model="dialog" width="500">
-          
           <template v-slot:activator="{ on, attrs }">
             <div>
-              <p color="red" class="font-xs text-gray-500">Si vous voulez avoir la simplicité et la clarté 
-              <br/> dans vos achats des unités du courant électriques</p>
+              <p color="red" class="font-xs text-gray-500">
+                Si vous voulez avoir la simplicité et la clarté <br />
+                dans vos achats des unités du courant électriques
+              </p>
               <v-btn
-              class="text-capitalize"
-              color="blue lighten-"
-              dark
-              v-bind="attrs"
-              v-on="on"
-            >
-              Commencer par ici
-            </v-btn>
+                class="text-capitalize"
+                color="blue lighten-"
+                dark
+                v-bind="attrs"
+                v-on="on"
+              >
+                Commencer par ici
+              </v-btn>
             </div>
-            
           </template>
 
           <v-card>
@@ -81,14 +81,13 @@
                       cols="12"
                       justify="end"
                       class="d-flex justify-between"
-                    
-                    ><v-alert
-                  class="text-center pa-0 ma-0"
-                  v-if="alert != ''"
-                  v-bind:style="{ color: color }"
-                >
-                  {{ alert }}
-                </v-alert>
+                      ><v-alert
+                        class="text-center pa-0 ma-0"
+                        v-if="alert != ''"
+                        v-bind:style="{ color: color }"
+                      >
+                        {{ alert }}
+                      </v-alert>
                       <nav class="pa-0 ma-0 ml-auto">
                         <ul class="pa-0 ma-0">
                           Avez-vous dja un compe ?
@@ -102,7 +101,6 @@
                     </v-col>
                   </v-row>
                 </v-container>
-                
               </v-form>
             </v-card-text>
 
@@ -126,7 +124,8 @@
         <div class="ma-5 py-5">
           <nav class="pa-0 ma-0 ml-auto">
             <ul class="pa-0 ma-0">
-              <li>Voir Balance et recharger un compte client
+              <li>
+                Voir Balance et recharger un compte client
                 <router-link to="/recharge" class="mx-2 text-capitalize"
                   >c'est par ici</router-link
                 >
@@ -134,7 +133,6 @@
             </ul>
           </nav>
         </div>
-        
       </div>
     </v-card>
   </v-container>
@@ -163,18 +161,18 @@ export default {
   methods: {
     createPost() {
       axios
-        .post("http://localhost:8082/api/user", this.users)
+        .post("https://enkclientserver2.vercel.app/api/user", this.users)
         .then((response) => {
           if (response.data.status == false) {
             this.alert = response.data.message;
             this.color = "red";
-          } else if(response.data.status==true){
+          } else if (response.data.status == true) {
             this.posts = response.data.newUser;
             console.log(this.posts);
             this.alert = response.data.message;
             this.color = "red";
           }
-        })
+        });
     },
   },
 };
