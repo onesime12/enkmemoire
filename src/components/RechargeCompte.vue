@@ -86,10 +86,10 @@ export default {
       axios
         .get("https://enkclientserver2.vercel.app/api/user")
         .then((response) => {
-          if (response.data.status == true) {
-            this.gets = response.data.allUsers;
-            this.vueSelf = true;
-          }
+          this.gets = response.data;
+          this.vueSelf = true;
+          console.log(this.gets);
+          //}
         });
     },
     updateUser() {

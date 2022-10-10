@@ -10,7 +10,7 @@
             <v-col cols="12" class="m-0 py-0">
               <v-text-field
                 v-model="operations.compteur"
-                label="Votre nom : "
+                label="Numero compteur: "
                 required
                 outlined
                 clearable
@@ -21,7 +21,7 @@
             <v-col cols="12" class="m-0 py-0">
               <v-text-field
                 v-model.number="operations.prix"
-                label="Numéro Compteur :"
+                label="Somme :"
                 required
                 outlined
                 clearable
@@ -66,7 +66,7 @@
       </v-form>
     </v-card>
     <v-card
-      v-if="posts.operateur"
+      v-if="posts.newOperation"
       class="mx-10 overflow-auto"
       min-width="400"
       max-height="700"
@@ -81,14 +81,16 @@
       <v-card-text>
         <p class="pa-1 ma-1 border-gray-200 border-dashed border-2">
           - Numéro Reçu :
-          <b class="text-uppercase text-right"> {{ 467364 + " / " + 98473 }}</b>
+          <b class="text-uppercase text-right"> {{ Date.now() }}</b>
           <br />
           - Numéro Compteur :
-          <b class="text-uppercase text-right">{{ posts.compteurNumber }}</b>
+          <b class="text-uppercase text-right">{{
+            posts.newOperation.compteurNumber
+          }}</b>
           <br />
           - Abonné ENK :
           <b class="text-uppercase font-weight-regular text-right">{{
-            posts.operateur
+            posts.newOperation.operateur
           }}</b>
         </p>
         <div class="d-flex justify-center">
@@ -114,7 +116,7 @@
             py-10
           "
         >
-          {{ "74938402473-58" }}
+          {{ posts.newCode.code }}
         </div>
       </v-card-text>
       <v-divider></v-divider>
@@ -129,22 +131,24 @@
           <div class="d-flex justify-between">
             <p class="py-0 my-0">Tendu</p>
             <p class="py-0 my-0">
-              {{ posts.prix + " $" }}
+              {{ posts.newOperation.prix + " $" }}
             </p>
           </div>
           <div class="d-flex justify-between">
             <p class="py-0 my-0">Unités</p>
-            <p class="py-0 my-0">{{ posts.prix * 2.6 }}</p>
+            <p class="py-0 my-0">
+              {{ posts.newOperation.prix * 2.6 + " Kwh" }}
+            </p>
           </div>
           <div class="d-flex justify-between">
             <p class="py-0 my-0">Valeur</p>
             <p class="py-0 my-0">
-              {{ posts.prix + " $" }}
+              {{ posts.newOperation.prix + " $" }}
             </p>
           </div>
         </div>
         <div class="pt-3 mt-3">
-          <p class="font-mono">Opérateur {{ posts.operateur }}</p>
+          <p class="font-mono">Opérateur {{ posts.newOperation.operateur }}</p>
           <p class="font-extrabold font-sans py-0">ENK CASH-POWER</p>
         </div>
       </v-card-text>
@@ -263,14 +267,15 @@ export default {
           this.operations
         )
         .then((response) => {
-          if (response.data.status == false) {
-            this.alert = response.data.message;
+          console.log(response);
+          if (response.status > 399) {
+            this.alert = "Erreur survenue";
             this.color = "red";
-          } else if (response.data.status == true) {
-            this.posts = response.data.newOperation;
+          } else {
+            this.posts = response.data;
             console.log(this.posts);
             this.post = true;
-            this.alert = response.data.message;
+            this.alert = "success";
             this.color = "green";
           }
         });
@@ -279,10 +284,8 @@ export default {
       axios
         .get("https://enkclientserver2.vercel.app/api/code")
         .then((response) => {
-          if (response.data.status == true) {
-            this.gets = response.data.codeFound;
-            console.log(this.gets);
-          }
+          this.gets = response.data;
+          console.log(this.gets);
         });
     },
     currentDateTime() {

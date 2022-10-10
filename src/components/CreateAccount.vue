@@ -163,14 +163,15 @@ export default {
       axios
         .post("https://enkclientserver2.vercel.app/api/user", this.users)
         .then((response) => {
-          if (response.data.status == false) {
-            this.alert = response.data.message;
+          console.log(response);
+          if (response.status > 399) {
+            this.alert = "Erreur de creation de compte";
             this.color = "red";
-          } else if (response.data.status == true) {
-            this.posts = response.data.newUser;
+          } else {
+            this.posts = response.data;
             console.log(this.posts);
-            this.alert = response.data.message;
-            this.color = "red";
+            this.alert = "Client creer avec succes";
+            this.color = "green";
           }
         });
     },
