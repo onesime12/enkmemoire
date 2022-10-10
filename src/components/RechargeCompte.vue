@@ -84,7 +84,7 @@ export default {
   methods: {
     recheachUsers() {
       axios
-        .get("http://enkclientserver2.vercel.app/api/user")
+        .get("https://enkclientserver2.vercel.app/api/user")
         .then((response) => {
           if (response.data.status == true) {
             this.gets = response.data.allUsers;
@@ -94,11 +94,14 @@ export default {
     },
     updateUser() {
       const data = {
-        compteurNumber: this.compteur,
+        //compteurNumber: this.compteur,
         balance: this.somme,
       };
       axios
-        .put("http:localhost:8082/api/user/" + this.compteur, data)
+        .put(
+          "https://enkclientserver2.vercel.app/api/user/" + this.compteur,
+          data
+        )
         .then((response) => {
           console.log(response);
         });

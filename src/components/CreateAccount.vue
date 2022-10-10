@@ -48,7 +48,7 @@
                   <v-row>
                     <v-col cols="12" class="m-0 py-0">
                       <v-text-field
-                        v-model="users.username"
+                        v-model="users.userName"
                         label="Votre nom : "
                         required
                         outlined
@@ -146,7 +146,7 @@ export default {
     return {
       dialog: false,
       users: {
-        username: "",
+        userName: "",
         compteur: "",
         password: "",
       },

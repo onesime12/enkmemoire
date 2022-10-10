@@ -20,7 +20,7 @@
 
             <v-col cols="12" class="m-0 py-0">
               <v-text-field
-                v-model="operations.prix"
+                v-model.number="operations.prix"
                 label="Numéro Compteur :"
                 required
                 outlined
@@ -236,7 +236,7 @@ export default {
     return {
       operations: {
         compteur: "",
-        prix: "",
+        prix: 0,
       },
       compteur: "",
       title: "Achat du courant",
@@ -276,12 +276,14 @@ export default {
         });
     },
     recheachOperation() {
-      axios.get("https://enkserver.vercel.app/api/code").then((response) => {
-        if (response.data.status == true) {
-          this.gets = response.data.codeFound;
-          console.log(this.gets);
-        }
-      });
+      axios
+        .get("https://enkclientserver2.vercel.app/api/code")
+        .then((response) => {
+          if (response.data.status == true) {
+            this.gets = response.data.codeFound;
+            console.log(this.gets);
+          }
+        });
     },
     currentDateTime() {
       const current = new Date();
