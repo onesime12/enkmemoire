@@ -1,5 +1,5 @@
 <template>
-  <v-container class="bg-gray-300 d-flex justify-between">
+  <v-container class="bg-gray-300 d-flex">
     <v-card class="ma-auto" width="600" height="500">
       <v-img
         class="bg-gray ma-auto m"
@@ -133,6 +133,9 @@
             </ul>
           </nav>
         </div>
+        <v-alert class="font-bold font-sans" color="success" dismissible v-model="showAlert">
+          Un utilisateur a été crée avec success
+        </v-alert>
       </div>
     </v-card>
   </v-container>
