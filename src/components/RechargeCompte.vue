@@ -26,23 +26,36 @@
         </v-form>
       </v-toolbar>
 
-      <div v-if="vueSelf == false && updateOneUser == false" class="h-60 d-flex justify-around align-center flex-col" >
-        
+      <div
+        v-if="vueSelf == false && updateOneUser == false"
+        class="h-60 d-flex justify-around align-center flex-col"
+      >
         <div class="mx-6">
-          <v-dialog  v-model="dialog" width="500">
-            <template  v-slot:activator="{ on, attrs }">
+          <v-dialog v-model="dialog" width="500">
+            <template v-slot:activator="{ on, attrs }">
               <div class="d-flex justify-center flex-col">
                 <h1 class="text-center text-gray-400 m-auto">
                   Faites une recherche et le resultat s'affiche ici
                 </h1>
-                <v-btn v-bind="attrs" v-on="on" @click="dialog=true" class="text-white text-capitalize text-center mt-6" color="blue">Recharger un compte client</v-btn>
+                <v-btn
+                  v-bind="attrs"
+                  v-on="on"
+                  @click="dialog = true"
+                  class="text-white text-capitalize text-center mt-6"
+                  color="blue"
+                  >Recharger un compte client</v-btn
+                >
               </div>
             </template>
-            
-            <v-card v-if="dialog==true" class="ma-auto" width="auto">
-              <v-card-title class="d-fle  justify-center">
-                <h1 class="text-center pa-4 font-sans font-extrabold ">Login</h1>
-                <p class="font-sans text-center text-sm text-gray-400">Avant de recharger un compte Client le systeme veut s'assurer  <br> vous avez l'autorisation</p>
+
+            <v-card v-if="dialog == true" class="ma-auto" width="auto">
+              <v-card-title class="d-fle justify-center">
+                <h1 class="text-center pa-4 font-sans font-extrabold">Login</h1>
+                <p class="font-sans text-center text-sm text-gray-400">
+                  Avant de recharger un compte Client le systeme veut s'assurer
+                  <br />
+                  vous avez l'autorisation
+                </p>
               </v-card-title>
               <v-card-text>
                 <v-form @submit.prevent="achatPost" class="mt-5">
@@ -77,15 +90,23 @@
                         cols="12"
                         justify="end"
                         class="d-flex justify-between"
-                        >
+                      >
                       </v-col>
                     </v-row>
                   </v-container>
                 </v-form>
               </v-card-text>
-              <v-card-actions >
-                <v-progress-circular v-if="isLoading==true" :size="30" :width="4" color="purple" indeterminate></v-progress-circular>
-                <v-btn v-else @click="login()" text color="blue" class="mr-6">Connecter</v-btn>
+              <v-card-actions>
+                <v-progress-circular
+                  v-if="isLoading == true"
+                  :size="30"
+                  :width="4"
+                  color="purple"
+                  indeterminate
+                ></v-progress-circular>
+                <v-btn v-else @click="login()" text color="blue" class="mr-6"
+                  >Connecter</v-btn
+                >
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -95,8 +116,10 @@
         </div>
       </div>
 
-      <div v-else-if="vueSelf == true && updateOneUser == false" class="bg-gray-200 w-200 d-flex justify-around align-center flex-col">
-        
+      <div
+        v-else-if="vueSelf == true && updateOneUser == false"
+        class="bg-gray-200 w-200 d-flex justify-around align-center flex-col"
+      >
         <v-list v-for="(item, index) in gets" :key="index">
           <v-list-item
             class="d-flex flex-col"
@@ -113,14 +136,63 @@
         </div>
       </div>
 
-      <div v-else class="bg-gray-200 w-200 d-flex justify-around align-center flex-col">
-        <h1 class="text-gray-5000 text-center"> salut</h1>
+      <div
+        v-else
+        class="bg-gray-200 w-200 d-flex justify-around align-center flex-col"
+      >
+        <div>
+          <v-form @submit.prevent="achatPost" class="mt-5">
+            <v-container>
+              <v-row>
+                <v-col cols="12" class="m-0 py-0">
+                  <v-text-field
+                    v-model="log.compteurAlloue"
+                    label="Numéro du compteur : "
+                    required
+                    outlined
+                    clearable
+                  >
+                  </v-text-field>
+                </v-col>
+
+                <v-col cols="12" class="m-0 py-0">
+                  <v-text-field
+                    label="Somme allouée :"
+                    type="number"
+                    v-model="log.sommeAlloue"
+                    required
+                    outlined
+                    clearable
+                    filled
+                  ></v-text-field>
+                </v-col>
+
+                <v-col cols="12" justify="end" class="d-flex justify-end">
+                  <v-progress-circular
+                    v-if="log.isLoading == true"
+                    :size="30"
+                    :width="4"
+                    color="purple"
+                    indeterminate
+                  ></v-progress-circular>
+                  <v-btn
+                    v-else-if="log.isLoading == false && log.value == false"
+                    @click="updateUser()"
+                    color="success"
+                    >Recharger</v-btn
+                  >
+                  <v-alert v-else type="success" :value="true">{{
+                    response.data[1]
+                  }}</v-alert>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-form>
+        </div>
         <div class="d-flex justify-end pa-5">
           <router-link to="/achat">Acheter</router-link>
         </div>
       </div>
-
-      
     </v-card>
   </v-container>
 </template>
@@ -135,14 +207,19 @@ export default {
       compteur: "",
       vueSelf: false,
       somme: "",
-      rules:[],
+      rules: [],
       dialog: false,
-      updateOneUser:false,
-      isLoading:false,
-      error:false,
-      log:{
-        userName:"Onesime",
-        password:"Onesime@.12"
+      updateOneUser: false,
+      isLoading: false,
+      error: false,
+      log: {
+        value: false,
+        userName: "Onesime",
+        password: "Onesime@.12",
+        compteurAlloue: "",
+        sommeAlloue: 0,
+        isLoading: false,
+        response: "",
       },
     };
   },
@@ -154,42 +231,52 @@ export default {
           this.gets = response.data;
           this.vueSelf = true;
           console.log(this.gets);
-          //}
         });
     },
     updateUser() {
+      this.log.isLoading = true;
       const data = {
-        //compteurNumber: this.compteur,
-        balance: this.somme,
+        balance: Number(this.log.sommeAlloue),
       };
       axios
         .put(
-          "https://enkclientserver2.vercel.app/api/user/" + this.compteur,data)
+          "https://enkclientserver2.vercel.app/api/user/" +
+            this.log.compteurAlloue,
+          data
+        )
         .then((response) => {
           console.log(response);
+          if (response.data[1] == "succefully user updated ...") {
+            this.log.response = response.data[1];
+            this.log.isLoading = false;
+          }else if(response.data == "user not found for Updating..."){
+            this.log.response = response.data[1];
+            this.log.isLoading = false;
+          }
         });
     },
-    login(){
-      if (this.log.userName=="Onesime" && this.log.password=="Onesime@.12") {
+    login() {
+      if (
+        this.log.userName == "Onesime" &&
+        this.log.password == "Onesime@.12"
+      ) {
         setTimeout(() => {
-          this.isLoading=true
-        }, 10)
-         setTimeout(() => {
-          this.isLoading=false
-          this.dialog=false
-          this.updateOneUser=true
-        }, 4000);
-      } else{
-        setTimeout(() => {
-          this.rules=[() => ('The email and password you entered don\'t match')]
+          this.isLoading = true;
         }, 10);
         setTimeout(() => {
-          this.rules=[]
+          this.isLoading = false;
+          this.dialog = false;
+          this.updateOneUser = true;
         }, 4000);
-        
+      } else {
+        setTimeout(() => {
+          this.rules = [() => "The password you entered don't match"];
+        }, 10);
+        setTimeout(() => {
+          this.rules = [];
+        }, 4000);
       }
-    }
-  }
+    },
+  },
 };
 </script>
-
