@@ -33,9 +33,18 @@
               <nav class="ma-0 pa-0">
                 <ul class="ma-0 pa-0 d-flex">
                   <li>
+                    <v-progress-circular
+                      v-if="log.isLoading == true"
+                      :size="30"
+                      :width="4"
+                      color="purple"
+                      indeterminate
+                    ></v-progress-circular>
+                  </li>
+                  <li>
                     <v-alert
                       class="ma-0 pa-0 w-100"
-                      v-if="alert != ''"
+                      v-if="alert != '' && log.isLoading == false"
                       v-bind:style="{ color: color }"
                       >{{ alert }}
                     </v-alert>
@@ -242,6 +251,9 @@ export default {
         compteur: "",
         prix: 0,
       },
+      log:{
+        isLoading:false
+      },
       compteur: "",
       title: "Achat du courant",
       alert: "",
@@ -261,6 +273,7 @@ export default {
       this.foundOperation = true;
     },
     achatPost() {
+      this.log.isLoading=true;
       axios
         .post(
           "https://enkclientserver2.vercel.app/api/operation",
@@ -268,15 +281,21 @@ export default {
         )
         .then((response) => {
           console.log(response);
-          if (response.status > 399) {
-            this.alert = "Erreur survenue";
+          if (response.data =="user not found with this compter number...") {
+            this.alert = "Ce compteur est introuvable...";
             this.color = "red";
+            setTimeout(() => {
+              this.log.isLoading=false;
+            }, 10);
           } else {
             this.posts = response.data;
             console.log(this.posts);
             this.post = true;
-            this.alert = "success";
+            this.alert = "Achat fait avec success...";
             this.color = "green";
+            setTimeout(() => {
+              this.log.isLoading=false;
+            }, 10);
           }
         });
     },

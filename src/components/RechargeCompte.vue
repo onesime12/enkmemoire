@@ -169,19 +169,19 @@
 
                 <v-col cols="12" justify="end" class="d-flex justify-end">
                   <v-progress-circular
-                    v-if="log.isLoading == true"
+                    v-if="log.isLoading == true && log.value==false"
                     :size="30"
                     :width="4"
                     color="purple"
                     indeterminate
                   ></v-progress-circular>
                   <v-btn
-                    v-else-if="log.isLoading == false && log.value == false"
+                    v-else-if="log.isLoading == false && log.value==false"
                     @click="updateUser()"
                     color="success"
                     >Recharger</v-btn
                   >
-                  <v-alert v-else type="success" :value="true">{{
+                  <v-alert v-else darken :color="log.color">{{
                     log.response
                   }}</v-alert>
                 </v-col>
@@ -213,9 +213,10 @@ export default {
       isLoading: false,
       error: false,
       log: {
+        color:"",
         value: false,
-        userName: "Onesime",
-        password: "Onesime@.12",
+        userName: "",
+        password: "",
         compteurAlloue: "",
         sommeAlloue: 0,
         isLoading: false,
@@ -245,19 +246,27 @@ export default {
           data
         )
         .then((response) => {
-          console.log(response.data);
-          if (response.status == 201) {
+          console.log(response.status);
+          if (response.status) {
             this.log.response = response.data.succesMessage;
             this.log.isLoading = false;
             this.log.value = true;
-          } else if (response.status == 404) {
-            this.log.response = response.data.message;
-            this.log.isLoading = false;
-          } else {
-            this.log.response = response.data.message;
-            this.log.isLoading = false;
+            this.log.color = "green";
+            setTimeout(() => {
+              this.log.value = false;
+            }, 5000);
           }
+        }).catch((error)=>{
+          this.log.response = error.response.data.message;
+          this.log.isLoading = false;
+            this.log.value = true;
+          this.log.color = "error"; 
+          setTimeout(() => {
+            this.log.value = false;
+          }, 5000);
         });
+      this.log.sommeAlloue="";
+      this.log.compteurAlloue=""
     },
     login() {
       if (
