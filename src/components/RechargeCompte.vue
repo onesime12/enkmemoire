@@ -182,7 +182,7 @@
                     >Recharger</v-btn
                   >
                   <v-alert v-else type="success" :value="true">{{
-                    response.data[1]
+                    log.response
                   }}</v-alert>
                 </v-col>
               </v-row>
@@ -236,7 +236,7 @@ export default {
     updateUser() {
       this.log.isLoading = true;
       const data = {
-        balance: Number(this.log.sommeAlloue),
+        somme: Number(this.log.sommeAlloue),
       };
       axios
         .put(
@@ -245,12 +245,16 @@ export default {
           data
         )
         .then((response) => {
-          console.log(response);
-          if (response.data[1] == "succefully user updated ...") {
-            this.log.response = response.data[1];
+          console.log(response.data);
+          if (response.status == 201) {
+            this.log.response = response.data.succesMessage;
             this.log.isLoading = false;
-          }else if(response.data == "user not found for Updating..."){
-            this.log.response = response.data[1];
+            this.log.value = true;
+          } else if (response.status == 404) {
+            this.log.response = response.data.message;
+            this.log.isLoading = false;
+          } else {
+            this.log.response = response.data.message;
             this.log.isLoading = false;
           }
         });
