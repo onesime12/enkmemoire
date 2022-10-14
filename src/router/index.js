@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import AchatView from "../views/AchatView.vue";
 import RechargeView from "../views/RechargeView.vue";
+import AbonneView from "../views/AbonneView.vue";
 
 Vue.use(VueRouter);
 
@@ -21,6 +22,11 @@ const routes = [
     path: "/recharge",
     name: "recharge",
     component: RechargeView,
+  },
+  {
+    path: "/abonne",
+    name: "abonne",
+    component: AbonneView,
   },
 ];
 

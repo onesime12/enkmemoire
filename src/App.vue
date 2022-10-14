@@ -7,10 +7,20 @@
 
       <v-spacer></v-spacer>
 
-      <div text>
+      <div>
         <span class="mr-2">ENK-Power</span>
         <v-icon>mdi-white-balance-incandescent</v-icon>
       </div>
+
+      <nav>
+        <ul>
+          <li>
+            <router-link to="/abonne">
+              <a style="color: #ffffff">Abonnés</a>
+            </router-link>
+          </li>
+        </ul>
+      </nav>
     </v-app-bar>
 
     <v-main class="d-flex align-center">
@@ -23,8 +33,6 @@
 export default {
   name: "App",
 
-  data: () => ({
-    
-  }),
+  data: () => ({}),
 };
 </script>
