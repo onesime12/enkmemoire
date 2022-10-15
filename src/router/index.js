@@ -4,6 +4,7 @@ import HomeView from "../views/HomeView.vue";
 import AchatView from "../views/AchatView.vue";
 import RechargeView from "../views/RechargeView.vue";
 import AbonneView from "../views/AbonneView.vue";
+import ClientView from "../views/ClientView.vue";
 
 Vue.use(VueRouter);
 
@@ -27,6 +28,11 @@ const routes = [
     path: "/abonne",
     name: "abonne",
     component: AbonneView,
+  },
+  {
+    path: "/client",
+    name: "client",
+    component: ClientView,
   },
 ];
 
