@@ -1,6 +1,11 @@
 <template>
-  <v-simple-table dark class="rounded-lg" height="500" style="position:relative">
-    <template v-slot:default >
+  <v-simple-table
+    dark
+    class="rounded-lg"
+    height="500"
+    style="position: relative"
+  >
+    <template v-slot:default>
       <thead>
         <tr class="">
           <th class="text-left">Client</th>
@@ -19,24 +24,18 @@
           <td class="text-left">{{ item.typeAbonnement }}</td>
           <td class="text-left">{{ item.numParcelle }}</td>
           <td class="text-left">
-            <v-btn></v-btn>
+            {{
+              Intl.DateTimeFormat("default", { dateStyle: "long" }).format(
+                new Date(item.createdOn)
+              )
+            }}
           </td>
         </tr>
       </tbody>
-      <v-btn
-        color="pink"
-        class="mb-8"
-        fab
-        dark
-        small
-        absolute
-        bottom
-        right
-      >
+      <v-btn color="pink" class="mb-8" fab dark small absolute bottom right>
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </template>
-    
   </v-simple-table>
 </template>
 
@@ -59,8 +58,6 @@ onMounted(async () => {
     state.listAbonne = [...resp.data];
   }
 });
-
-
 </script>
 
 <style>
